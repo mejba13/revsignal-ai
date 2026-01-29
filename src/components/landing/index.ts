@@ -1,0 +1,10 @@
+export { Navbar } from './navbar';
+export { Hero } from './hero';
+export { Logos } from './logos';
+export { Problem } from './problem';
+export { Features } from './features';
+export { Integrations } from './integrations';
+export { Testimonials } from './testimonials';
+export { Pricing } from './pricing';
+export { CTA } from './cta';
+export { Footer } from './footer';
