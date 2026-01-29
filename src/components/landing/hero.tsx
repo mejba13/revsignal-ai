@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,6 +17,9 @@ import {
   Sparkles,
 } from 'lucide-react';
 
+// Background video URL - Digital network connections (perfect for AI/data platform)
+const BACKGROUND_VIDEO_URL = 'https://cdn.pixabay.com/video/2020/06/05/41018-428742972_large.mp4';
+
 const stats = [
   { value: '94%', label: 'Prediction Accuracy', icon: Target },
   { value: '3.2x', label: 'Faster Deal Cycles', icon: Zap },
@@ -29,20 +33,52 @@ const trustedBy = [
 ];
 
 export function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    // Ensure video plays on mount
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Autoplay was prevented, video will show but not play
+        console.log('Video autoplay was prevented');
+      });
+    }
+  }, []);
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-cosmic">
-      {/* ===== COSMIC BACKGROUND EFFECTS ===== */}
+      {/* ===== VIDEO BACKGROUND ===== */}
+      <div className="absolute inset-0 -z-20 overflow-hidden">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto object-cover"
+          style={{
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <source src={BACKGROUND_VIDEO_URL} type="video/mp4" />
+        </video>
+      </div>
+
+      {/* ===== VIDEO OVERLAY (darkens video for text readability) ===== */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0a0118]/85 via-[#0a0118]/75 to-[#0a0118]/90" />
+
+      {/* ===== COSMIC BACKGROUND EFFECTS (on top of video) ===== */}
       <div className="absolute inset-0 -z-10">
         {/* Base gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(139,92,246,0.2),transparent)]" />
 
         {/* Grid pattern */}
-        <div className="bg-grid absolute inset-0 opacity-40" />
+        <div className="bg-grid absolute inset-0 opacity-20" />
 
-        {/* Animated orbs */}
-        <div className="orb orb-violet h-[600px] w-[600px] -left-48 -top-48 float-slow" />
-        <div className="orb orb-cyan h-[500px] w-[500px] -right-32 top-1/4 float" />
-        <div className="orb orb-pink h-[400px] w-[400px] left-1/3 -bottom-32 float-reverse" />
+        {/* Animated orbs - reduced opacity to blend with video */}
+        <div className="orb orb-violet h-[600px] w-[600px] -left-48 -top-48 float-slow opacity-40" />
+        <div className="orb orb-cyan h-[500px] w-[500px] -right-32 top-1/4 float opacity-40" />
+        <div className="orb orb-pink h-[400px] w-[400px] left-1/3 -bottom-32 float-reverse opacity-40" />
 
         {/* Noise texture */}
         <div className="bg-noise absolute inset-0" />
