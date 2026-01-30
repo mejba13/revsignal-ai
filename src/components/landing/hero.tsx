@@ -17,8 +17,14 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-// Background video URL - Digital network connections (perfect for AI/data platform)
-const BACKGROUND_VIDEO_URL = 'https://cdn.pixabay.com/video/2020/06/05/41018-428742972_large.mp4';
+// Background video - Abstract digital network/data visualization
+// Creates a premium tech feel that resonates with AI/Revenue Intelligence theme
+const BACKGROUND_VIDEOS = [
+  // Primary: Abstract blue/purple tech particles - evokes AI, data, intelligence
+  'https://cdn.pixabay.com/video/2021/02/15/65578-512978498_large.mp4',
+  // Fallback: Digital network connections
+  'https://cdn.pixabay.com/video/2020/07/30/45949-446153770_large.mp4',
+];
 
 const stats = [
   { value: '94%', label: 'Prediction Accuracy', icon: Target },
@@ -36,10 +42,11 @@ export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Ensure video plays on mount
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {
-        // Autoplay was prevented, video will show but not play
+    // Ensure video plays on mount with fallback handling
+    const video = videoRef.current;
+    if (video) {
+      video.play().catch(() => {
+        // Autoplay was prevented, try with user interaction or just show poster
         console.log('Video autoplay was prevented');
       });
     }
@@ -55,17 +62,27 @@ export function Hero() {
           muted
           loop
           playsInline
-          className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto object-cover"
+          preload="auto"
+          className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto object-cover scale-110"
           style={{
             transform: 'translate(-50%, -50%)',
+            filter: 'hue-rotate(-10deg) saturate(1.2)',
           }}
         >
-          <source src={BACKGROUND_VIDEO_URL} type="video/mp4" />
+          <source src={BACKGROUND_VIDEOS[0]} type="video/mp4" />
+          <source src={BACKGROUND_VIDEOS[1]} type="video/mp4" />
         </video>
       </div>
 
-      {/* ===== VIDEO OVERLAY (darkens video for text readability) ===== */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0a0118]/85 via-[#0a0118]/75 to-[#0a0118]/90" />
+      {/* ===== VIDEO OVERLAY - Creates the cosmic purple tint and ensures text readability ===== */}
+      <div className="absolute inset-0 -z-10">
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0118]/80 via-[#0a0118]/70 to-[#0a0118]/90" />
+        {/* Purple/violet color tint for brand consistency */}
+        <div className="absolute inset-0 bg-violet-950/40 mix-blend-multiply" />
+        {/* Extra darkness at edges for vignette effect */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(10,1,24,0.6)_100%)]" />
+      </div>
 
       {/* ===== COSMIC BACKGROUND EFFECTS (on top of video) ===== */}
       <div className="absolute inset-0 -z-10">
