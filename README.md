@@ -22,6 +22,8 @@
 
 RevSignal AI is a cutting-edge predictive revenue intelligence platform designed for B2B SaaS sales teams. It leverages AI-powered analytics to transform raw CRM data into actionable insights, helping sales leaders make data-driven decisions with confidence.
 
+<img width="1813" height="1438" alt="CleanShot 2026-01-29 at 2  27 36" src="https://github.com/user-attachments/assets/bc98b3d5-b387-46d1-92eb-d11db908cbd9" />
+
 ### Key Capabilities
 
 - **AI-Powered Deal Scoring** - 0-100 score with win probability predictions
