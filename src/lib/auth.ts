@@ -29,22 +29,41 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.log('[Auth] Missing credentials');
           throw new Error('Email and password are required');
         }
 
-        const user = await db.user.findUnique({
-          where: { email: credentials.email },
-          include: { organization: true },
-        });
+        console.log('[Auth] Attempting login for:', credentials.email);
 
-        if (!user || !user.passwordHash) {
+        let user;
+        try {
+          user = await db.user.findUnique({
+            where: { email: credentials.email },
+            include: { organization: true },
+          });
+        } catch (dbError) {
+          console.error('[Auth] Database error:', dbError);
+          throw new Error('Database connection error');
+        }
+
+        if (!user) {
+          console.log('[Auth] User not found');
           throw new Error('Invalid email or password');
         }
+
+        if (!user.passwordHash) {
+          console.log('[Auth] User has no password hash');
+          throw new Error('Invalid email or password');
+        }
+
+        console.log('[Auth] User found, checking password...');
 
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
           user.passwordHash
         );
+
+        console.log('[Auth] Password valid:', isPasswordValid);
 
         if (!isPasswordValid) {
           throw new Error('Invalid email or password');

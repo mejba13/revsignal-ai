@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import {
   LogOut,
   Menu,
@@ -12,8 +12,9 @@ import {
   ChevronDown,
   Settings,
   User,
-  HelpCircle,
   Sparkles,
+  Users,
+  Zap,
 } from 'lucide-react';
 
 interface DashboardHeaderProps {
@@ -164,20 +165,38 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                     <p className="text-xs text-white/50">{user.email}</p>
                   </div>
                   <div className="p-2">
-                    {[
-                      { label: 'Profile', icon: User, href: '#' },
-                      { label: 'Settings', icon: Settings, href: '/dashboard/settings' },
-                      { label: 'Help Center', icon: HelpCircle, href: '#' },
-                    ].map((item) => (
-                      <a
-                        key={item.label}
-                        href={item.href}
-                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
-                      >
-                        <item.icon className="h-4 w-4" />
-                        {item.label}
-                      </a>
-                    ))}
+                    <Link
+                      href="/dashboard/settings"
+                      onClick={() => setShowUserMenu(false)}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+                    >
+                      <User className="h-4 w-4" />
+                      Profile
+                    </Link>
+                    <Link
+                      href="/dashboard/settings"
+                      onClick={() => setShowUserMenu(false)}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+                    >
+                      <Settings className="h-4 w-4" />
+                      Settings
+                    </Link>
+                    <Link
+                      href="/dashboard/settings/team"
+                      onClick={() => setShowUserMenu(false)}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+                    >
+                      <Users className="h-4 w-4" />
+                      Team
+                    </Link>
+                    <Link
+                      href="/dashboard/settings/integrations"
+                      onClick={() => setShowUserMenu(false)}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+                    >
+                      <Zap className="h-4 w-4" />
+                      Integrations
+                    </Link>
                   </div>
                   <div className="border-t border-white/[0.06] p-2">
                     <button
